@@ -28,106 +28,6 @@ const globalThis = getGlobal()
  * @return {object} a对象，此方法并不会生成新对象
  * */
 
-const option = {
-  logTime: true
-}
-
-/**
- * 获取错误堆栈跟踪数据
- * @return string
- * */
-
-const getStackTrace = function () {
-  const obj = {}
-  Error.captureStackTrace(obj, getStackTrace)
-  return obj.stack
-}
-const os = process.platform
-const re = os.includes('win32') ? /\\(.+)\.js:(\d+:\d+)/g : /\/(.+)\.js:(\d+:\d+)/g
-const trace = console
-
-/**
- * @param {...any[]} args 要打印的参数
- * */
-
-const log = function log (...args) {
-  getStackTrace()
-    .split('\n')[2]
-    .match(re)
-  const s = ' [' + c.dimg(RegExp.$1 + ':' + RegExp.$2 + ' ' + new Date().date2Str().replaceAll('-', '')) + ']'
-  let str = ''
-  for (let item of args) {
-    if (typeof item === 'object') {
-      str = str + JSON.stringify(item) + ' '
-    } else {
-      str = str + item + ' '
-    }
-  }
-  trace.log(str + (option.logTime ? s : ''))
-  return 1
-}
-
-/**
- * @param {...any[]} args 要打印的参数
- * */
-
-const err = function err (...args) {
-  getStackTrace()
-    .split('\n')[2]
-    .match(re)
-  const s = ' [' + c.dimr(RegExp.$1 + ':' + RegExp.$2 + ' ' + new Date().date2Str().replaceAll('-', '')) + ']'
-  let str = ''
-  for (let item of args) {
-    if (typeof item === 'object') {
-      str = str + JSON.stringify(item) + ' '
-    } else {
-      str = str + item + ' '
-    }
-  }
-  trace.error(str + (option.logTime ? s : ''))
-  return 1
-}
-
-function strColor (k, v) {
-  if (typeof v === 'bigint') {
-    return '#green#' + v.toString() + 'n' + '#none#'
-  }
-
-  if (typeof v === 'function') {
-    return `[function ${k}]`
-  }
-  if (Object.prototype.toString.call(v) === '[object RegExp]') {
-    return '#cyan#' + v + '#none#'
-  }
-  return v
-}
-
-/**
- * dir json着色函数.
- * @param {...array<any>} args 任何参数
- */
-
-const dir = function dir (...args) {
-  for (let item of args) {
-    let ss = JSON.stringify(item, strColor, 4)
-    ss = ss
-      .replace('#none#', c.none)
-      .replace('#cyan#', c.cyan)
-      .replace('#green#', c.green)
-      .replace(/"(.+)": /g, c.g('$1') + ': ')
-      .replace(/(true)(,|'')\n/g, c.r('$1$2\n'))
-      .replace(/(false)(,|'')\n/g, c.r('$1$2\n'))
-      .replace(/"(.+)",\n/g, '"' + c.m('$1') + '",\n')
-      .replace(/"(.+)"\n/g, '"' + c.m('$1') + '"\n')
-      .replace(/([0-9.]+),\n/g, c.y('$1') + ',\n')
-      .replace(/([0-9.]+)\n/g, c.y('$1') + '\n')
-      .replace(/,\n/g, c.y(',\n'))
-      .replace(/("|{|}|[|])/g, c.y('$1'))
-    console.log(ss)
-  }
-  return args
-}
-
 /**
  * 返回一个sort函数，用于给对象数组根据某字段排序，类似sql中的order by
  * @param {String} k 排序根据的k
@@ -181,12 +81,7 @@ const Mock = require('./lib/Mock.js')
 const qrcode = require('./lib/qrcode.js')
 const geo = require('./lib/geo.js')
 const cryptoExt = require('./lib/CryptoExt.js')
-let buf
-if (Buffer !== undefined) {
-  buf = require('./lib/buf.js')
-} else {
-  buf = {}
-}
+let buf = require('./lib/buf.js')
 
 /**
  * 把数组里的函数挨个执行，并且把前面函数的返回值传给下一个函数
@@ -197,7 +92,10 @@ if (Buffer !== undefined) {
  * // [0,1,2]
  * */
 
-const pipe = (...funcs) => arg => funcs.reduce((p, fn) => fn(p), arg)
+const pipe =
+  (...funcs) =>
+  arg =>
+    funcs.reduce((p, fn) => fn(p), arg)
 
 /**
  * @description 处理JSON
