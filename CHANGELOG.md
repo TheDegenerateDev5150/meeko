@@ -1,3 +1,12 @@
+## [1.8.353](https://github.com/kongnet/meeko/compare/v1.8.352...v1.8.353) (2026-02-18)
+
+
+### :white_check_mark:
+
+* 增加ai测试覆盖 ([a5bf491](https://github.com/kongnet/meeko/commit/a5bf49194e94445bed352ab31dd7423f294d699c))
+
+
+
 ## [1.8.352](https://github.com/kongnet/meeko/compare/v1.8.351...v1.8.352) (2026-02-12)
 
 

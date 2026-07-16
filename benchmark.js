@@ -11,6 +11,8 @@ const propExist1 = () => 'name' in propExistObj
 const propExist2 = () => propExistObj.name !== undefined
 const propExist3 = () => propExistObj.hasOwnProperty('name')
 
+const aiPropUndefined = () => propExistObj.name !== undefined
+
 const strOri =
   '9999nas56765d.n.kasdkskdnfkjsdfkjhsdfiuhsdfiusadfiuhsdfiöhsdifhsäodfskyjiosdfisdfsdfnosdfiosdf89sdfs98pdfzp98sdf98psfzp8sfzp8sfzp89szfp8snasd.n.kasdkskdskynfkjsdfkjhsdfiuhsdfiusadfiuhsdfiöhsdifhsäodfjiosdfisdfsdfnosdfiosdf89sdfs98pdfzp98sdf98psfzp8sfzp8sfzp89szfp8snasd.n.kasdkskdnfkjsdfkjhsdfiuhsdfiusadfiuhsdfiöhsdifhsäodfjiosdfisdfsdfnosdfiosdf89sdfs98pdfzp98sdf98psfzp8sfzp8sfzp89szfp8snasd.hellon.kasdkskdnfkjsdfkjhsdfiuhsdfiusadfiuhsdfiöhsdifhsäodfjiosdfisdfsdfnosdfiosdf89sdfs98pdfzp98sdf98psfzp8sfzp8sfzp89szfp8s'
 const needle = 'sky'
@@ -20,6 +22,8 @@ const strExist2 = () => needleRegex.test(strOri)
 const strExist3 = () => strOri.match(needleRegex)
 const strExist4 = () => strOri.includes(needle)
 const strExist5 = () => strOri.search(needleRegex)
+
+const aiStrIncludes = () => strOri.includes(needle)
 
 const cloneArray = [
   29, 27, 28, 838, 22, 2882, 2, 93, 84, 74, 7, 933, 3754, 3874, 22838, 38464, 3837, 82424, 2927, 2625, 63, 27, 28, 838, 22, 2882, 2, 93, 84, 74, 7, 933, 3754, 3874, 22838, 38464, 3837, 82424, 2927,
@@ -57,7 +61,8 @@ const cloneArr7 = () =>
   })
 const cloneArr8 = () => JSON.parse(JSON.stringify(cloneArray))
 
-logTitle('基础-delete undefined null')
+const aiCloneConcat = () => [].concat(cloneArray)
+
 const delObj1 = {
   name: 'sky',
   lastName: 'kong'
@@ -80,6 +85,11 @@ const del2 = () => {
 }
 const del3 = () => {
   delObj3.name = null
+  return 1
+}
+
+const aiAssignUndefined = () => {
+  delObj2.name = undefined
   return 1
 }
 
@@ -108,12 +118,17 @@ const strConcat3 = () => {
   return tt.join('')
 }
 
-function secRand (a, b) {
-  // （1）首先找到样本数据Y的最小值Min及最大值Max
-  // （2）计算系数为：k=(b-a)/(Max-Min)
-  // （3）得到归一化到[a,b)区间的数据：norY=a+k(Y-Min)
+const aiStrConcatDirect = () => {
+  const t = 'x'
+  let tt = ''
+  for (let i = 0; i < 1000; i++) {
+    tt += t
+  }
+  return tt
+}
 
-  const r = crypto.randomBytes(4) // 0-4294967295
+function secRand (a, b) {
+  const r = crypto.randomBytes(4)
   return Math.floor(((b - a + 1) / 4294967295) * r.readUInt32LE(0)) + a
 }
 const rand1 = function () {
@@ -125,6 +140,8 @@ const rand2 = function () {
 const rand3 = function () {
   return crypto.randomInt(0, 10001)
 }
+
+const aiUniformRandInt = () => $.math.uniformRandInt(0, 10000)
 
 const thousand = function (number, p = 3) {
   const sign = Math.sign(number)
@@ -163,6 +180,9 @@ const thousandFormatWithMod = function (number, p = 3) {
   }
   return (sign < 0 ? '-' : '') + r
 }
+
+const aiThousandMod = () => (123456789.123456789).toLocaleString('en-US', { maximumFractionDigits: 3 })
+
 const isEmpty = function () {
   const o = {}
   return !!Object.keys(o).length
@@ -171,11 +191,14 @@ const isEmpty2 = function () {
   const o = {}
   return JSON.stringify(o) === '{}'
 }
+
+const aiIsEmptyKeys = () => !!Object.keys({}).length
+
 const invSqrt = function (f) {
   return 1 / Math.sqrt(f)
 }
 
-const buf = new ArrayBuffer(4) // Float32Array.BYTES_PER_ELEMENT
+const buf = new ArrayBuffer(4)
 const f32 = new Float32Array(buf)
 const u32 = new Uint32Array(buf)
 function invSqrt2 (x) {
@@ -183,7 +206,7 @@ function invSqrt2 (x) {
   const x2 = 0.5 * f32[0]
   u32[0] = 0x5f3759df - (u32[0] >> 1)
   let y = f32[0]
-  y = y * (1.5 - x2 * y ** 2) // 1st iteration
+  y = y * (1.5 - x2 * y ** 2)
   return y
 }
 
@@ -194,12 +217,15 @@ const invSqrtTest2 = function () {
   return invSqrt2(3277)
 }
 
+const aiInvSqrtStd = () => 1 / Math.sqrt(3277)
+
 const testSuite = [
   {
     name: '基础-判断对象为空',
     testArr: [
       [isEmpty, 'Object.keys判断空', 1e6],
-      [isEmpty2, 'JSON.stringify判断为空', 1e6]
+      [isEmpty2, 'JSON.stringify判断为空', 1e6],
+      [aiIsEmptyKeys, 'ai-isEmptyKeys', 1e6]
     ]
   },
   {
@@ -207,7 +233,8 @@ const testSuite = [
     testArr: [
       [propExist1, 'key in 方式', 1e6],
       [propExist2, '直接判断undefined', 1e6],
-      [propExist3, 'hasOwnProperty判断', 1e6]
+      [propExist3, 'hasOwnProperty判断', 1e6],
+      [aiPropUndefined, 'ai-propUndefined', 1e6]
     ]
   },
   {
@@ -217,7 +244,8 @@ const testSuite = [
       [strExist2, '正则'],
       [strExist3, 'match判断'],
       [strExist4, 'es6 includes判断'],
-      [strExist5, 'search判断']
+      [strExist5, 'search判断'],
+      [aiStrIncludes, 'ai-strIncludes']
     ]
   },
   {
@@ -230,7 +258,8 @@ const testSuite = [
       [cloneArr5, 'index克隆', 1e5],
       [cloneArr6, '数组apply克隆', 1e5],
       [cloneArr7, 'map克隆', 1e5],
-      [cloneArr8, 'JSON.stringify克隆', 1e5]
+      [cloneArr8, 'JSON.stringify克隆', 1e5],
+      [aiCloneConcat, 'ai-cloneConcat', 1e5]
     ]
   },
   {
@@ -238,7 +267,8 @@ const testSuite = [
     testArr: [
       [del1, 'delete删', 1e6],
       [del2, '赋值undefined', 1e6],
-      [del3, '赋值null', 1e6]
+      [del3, '赋值null', 1e6],
+      [aiAssignUndefined, 'ai-assignUndefined', 1e6]
     ]
   },
   {
@@ -246,7 +276,8 @@ const testSuite = [
     testArr: [
       [strConcat1, '直接+=', 1e4],
       [strConcat2, 'join字符串', 1e4],
-      [strConcat3, 'length-join', 1e4]
+      [strConcat3, 'length-join', 1e4],
+      [aiStrConcatDirect, 'ai-strConcatDirect', 1e4]
     ]
   },
   {
@@ -254,7 +285,8 @@ const testSuite = [
     testArr: [
       [rand1, '普通包含两端随机函数', 1e5],
       [rand2, '安全包含两端随机函数randomBytes实现', 1e5],
-      [rand3, '安全包含两端随机函数randomInt实现', 1e5]
+      [rand3, '安全包含两端随机函数randomInt实现', 1e5],
+      [aiUniformRandInt, 'ai-uniformRandInt', 1e5]
     ]
   },
   {
@@ -280,14 +312,16 @@ const testSuite = [
         },
         '',
         100000
-      ]
+      ],
+      [aiThousandMod, 'ai-thousandMod', 100000]
     ]
   },
   {
     name: '倒数平方',
     testArr: [
       [invSqrtTest, '平方倒数1', 1e6],
-      [invSqrtTest2, '魔法数0x5f3759df平方倒数2', 1e6]
+      [invSqrtTest2, '魔法数0x5f3759df平方倒数2', 1e6],
+      [aiInvSqrtStd, 'ai-invSqrtStd', 1e6]
     ]
   }
 ]
@@ -318,9 +352,16 @@ const findId1 = () => {
 }
 const findId2 = () => findArr.find(item => item.id === +keyToFind)
 const findId3 = () => oFind[keyToFind]
+
+const aiFindIterative = () => findArr.find(item => item.id === +keyToFind)
+
+const aiHashFind = () => oFind[keyToFind]
+
 $.benchmark(findId1, 'for循环查找', 1e6)
 $.benchmark(findId2, 'find迭代函数查找', 1e6)
 $.benchmark(findId3, 'hash直接查找', 1e6)
+$.benchmark(aiFindIterative, 'ai-findIterative', 1e6)
+$.benchmark(aiHashFind, 'ai-hashFind', 1e6)
 
 logTitle('基础-判断整数')
 
@@ -335,8 +376,20 @@ const isInt1 = () => {
 }
 
 const isInt2 = () => $.tools.isInt(0.15)
+
+const aiIsIntNative = () => {
+  const value = 0.15
+  return (
+    !isNaN(value) &&
+    (function (x) {
+      return (x | 0) === x
+    })(parseFloat(value))
+  )
+}
+
 $.benchmark(isInt1, '普通判断整数', 1e6)
 $.benchmark(isInt2, '正则判断整数', 1e6)
+$.benchmark(aiIsIntNative, 'ai-isIntNative', 1e6)
 
 logTitle('基础-数组最大最小值')
 const minMaxArr = [82, 28, 2726, 28, 29, 19, 282737, 88, 2827, 917, 2, 2828, 999, 827, 82, 928272, 2826, 373636, 278, 2282, 292727, 282, 23, 833, 92829, 282, 2, 939, 111, 8382, 238]
@@ -344,10 +397,14 @@ const minMax1 = () => [Math.min(...minMaxArr), Math.max(...minMaxArr)]
 const minMax2 = () => [minMaxArr.reduce((a, b) => Math.min(a, b)), minMaxArr.reduce((a, b) => Math.max(a, b))]
 const minMax3 = () => [Math.min.apply(null, minMaxArr), Math.max.apply(null, minMaxArr)]
 const minMax4 = () => [$.math.min(minMaxArr), $.math.max(minMaxArr)]
+
+const aiMinMaxReduce = () => [minMaxArr.reduce((a, b) => Math.min(a, b)), minMaxArr.reduce((a, b) => Math.max(a, b))]
+
 $.benchmark(minMax1, 'es6 解构查找数组最值', 1e6)
 $.benchmark(minMax2, 'reduce查找数组最值', 1e6)
 $.benchmark(minMax3, '普通方式查找数组最值', 1e6)
 $.benchmark(minMax4, 'reduce查找数组最值2', 1e6)
+$.benchmark(aiMinMaxReduce, 'ai-minMaxReduce', 1e6)
 
 logTitle('阶乘比较')
 function factorialize1 (num) {
@@ -368,8 +425,21 @@ function fac2 () {
   return ret + 0
 }
 
+const aiFacIterative = () => {
+  const fac = num => {
+    if (num < 0) return -1
+    else if (num === 0 || num === 1) return 1
+    for (let i = num - 1; i >= 1; i--) {
+      num *= i
+    }
+    return num
+  }
+  return fac(100)
+}
+
 $.benchmark(fac1, '递归阶乘', 100000)
 $.benchmark(fac2, '不递归阶乘', 100000)
+$.benchmark(aiFacIterative, 'ai-facIterative', 100000)
 
 logTitle('四舍五入比较')
 const round1 = () =>
@@ -380,8 +450,12 @@ const round2 = () =>
   (function (n, dec) {
     return Number(`${Math.round(`${n}e${dec}`)}e-${dec}`)
   })(1.23456789, 4)
+
+const aiRoundLibrary = () => (1.23456789).round(4)
+
 $.benchmark(round1, 'sky四舍五入到某一位', 100000)
 $.benchmark(round2, '网上技巧es6实现任意位四舍五入', 100000)
+$.benchmark(aiRoundLibrary, 'ai-roundLibrary', 100000)
 
 logTitle('去重函数比较')
 const uniq1 = function () {
@@ -413,7 +487,7 @@ const uniq2 = function () {
 const uniq3 = function () {
   function uniq (array) {
     const n = [array[0]]
-    let hasNaN = 0 // 结果数组
+    let hasNaN = 0
     for (let i = 1; i < array.length; i++) {
       if (array.indexOf(array[i]) === i) {
         n.push(array[i])
@@ -427,9 +501,27 @@ const uniq3 = function () {
   }
   return uniq([undefined, null, 1, 1, '1', '1', null, undefined, NaN, NaN])
 }
+
+const aiUniqSimple = () => {
+  const array = [undefined, null, 1, 1, '1', '1', null, undefined, NaN, NaN]
+  const n = [array[0]]
+  let hasNaN = 0
+  for (let i = 1; i < array.length; i++) {
+    if (array.indexOf(array[i]) === i) {
+      n.push(array[i])
+    }
+    if (hasNaN === 0 && isNaN(array[i])) {
+      hasNaN = 1
+      n.push(NaN)
+    }
+  }
+  return n
+}
+
 $.benchmark(uniq1, '对象键值法去重法,es5时代号称最快', 100000)
 $.benchmark(uniq2, 'es6方案', 100000)
 $.benchmark(uniq3, '最简单数组去重法,但结果可能有误差', 100000)
+$.benchmark(aiUniqSimple, 'ai-uniqSimple', 100000)
 
 logTitle('累加比较')
 const sum1 = function () {
@@ -445,8 +537,11 @@ const sum2 = function () {
   return $.math.sum(a)
 }
 
+const aiSumReduce = () => $.math.sum([1, 2, 3, 4, 5, 6, 7, 8, 9, 1, 2, 3, 4, 5, 6, 7, 8, 9])
+
 $.benchmark(sum1, 'for循环累加', 1000000)
 $.benchmark(sum2, 'reduce累加', 1000000)
+$.benchmark(aiSumReduce, 'ai-sumReduce', 1000000)
 
 logTitle('求max比较')
 const max1 = function () {
@@ -467,10 +562,14 @@ const max4 = function () {
   const arr = [7, 2, 0, -3, 5]
   return Math.max(...arr)
 }
+
+const aiMaxMathApply = () => Math.max.apply(null, [7, 2, 0, -3, 5])
+
 $.benchmark(max1, 'apply求max')
 $.benchmark(max2, 'sort求max')
 $.benchmark(max3, 'reduce求max')
 $.benchmark(max4, 'es6解构求max')
+$.benchmark(aiMaxMathApply, 'ai-maxMathApply')
 
 logTitle('数组分组比较')
 const chunk1 = function () {
@@ -489,8 +588,15 @@ const chunk2 = function () {
   const a = [345, 45, 5, 58, 5, 325, 756, 86, 342, 62, 51, 56437, 34, 5]
   chunk(a, a.length / 7)
 }
+
+const aiChunkProto = () => {
+  const a = [345, 45, 5, 58, 5, 325, 756, 86, 342, 62, 51, 56437, 34, 5]
+  return a.chunk(7)
+}
+
 $.benchmark(chunk1, 'es6数组分组', 100000)
 $.benchmark(chunk2, '普通数组分组', 100000)
+$.benchmark(aiChunkProto, 'ai-chunkProto', 100000)
 
 logTitle('洗牌比较')
 
@@ -501,8 +607,20 @@ const shuffle1 = function () {
 const shuffle2 = function () {
   return [7, 2, 0, -3, 5].fisherYates
 }
+
+const aiFisherYates = () => {
+  const arr = [7, 2, 0, -3, 5]
+  let i = arr.length
+  while (i) {
+    const j = Math.floor(Math.random() * i--)
+    ;[arr[i], arr[j]] = [arr[j], arr[i]]
+  }
+  return arr
+}
+
 $.benchmark(shuffle1, '普通洗牌算法')
 $.benchmark(shuffle2, 'Fisher-Yates洗牌算法')
+$.benchmark(aiFisherYates, 'ai-fisherYates')
 
 logTitle('唯一ID生成比较')
 const tempSnowflake = new $.Snowflake(1, 1, 0)
@@ -518,6 +636,8 @@ const cryptoUUID = () => {
   return crypto.randomUUID()
 }
 
+const aiCryptoUUID = () => crypto.randomUUID()
+
 const uuidTest = [
   {
     name: 'UUID Test',
@@ -525,7 +645,8 @@ const uuidTest = [
       [genSnowFlake, 'sky SnowFlake函数', 100000],
       [genUUID, 'sky gUID函数', 100000],
       [UUIDGen, 'UUIDGen', 10000],
-      [cryptoUUID, 'crypto randomUUID', 100000]
+      [cryptoUUID, 'crypto randomUUID', 100000],
+      [aiCryptoUUID, 'ai-cryptoUUID', 100000]
     ]
   }
 ]
@@ -544,9 +665,13 @@ const arr2 = function () {
 const arr3 = function () {
   return [...Array(9).keys()]
 }
+
+const aiArrayFillMap = () => new Array(9).fill(0).map((item, index) => index + 1)
+
 $.benchmark(arr1, 'arr1', 100000)
 $.benchmark(arr2, 'arr2', 100000)
 $.benchmark(arr3, 'arr3', 100000)
+$.benchmark(aiArrayFillMap, 'ai-arrayFillMap', 100000)
 
 logTitle('gpt 鉴权数据聚合 原因测试')
 
@@ -555,7 +680,6 @@ let rst = [
   { flagger: false, catlogs: { a1: true, b1: true, c1: false } },
   { flagger: true, catlogs: { a: false, b: false, c1: true } }
 ]
-// let r = rst.filter(_ => _.flagger).map(_ =>Object.entries(_.catlogs).filter(_ => _[1]).map(_ => _[0])).flat()
 function gptRst1 () {
   let r = Object.keys(
     rst.reduce(
@@ -584,12 +708,29 @@ function gptRst2 () {
     .flat()
 }
 
+const aiFilterChain = () => {
+  const data = [
+    { flagger: true, catlogs: { a: true, b: true } },
+    { flagger: false, catlogs: { a1: true, b1: true, c1: false } },
+    { flagger: true, catlogs: { a: false, b: false, c1: true } }
+  ]
+  return data
+    .filter(_ => _.flagger)
+    .map(_ =>
+      Object.entries(_.catlogs)
+        .filter(_ => _[1])
+        .map(_ => _[0])
+    )
+    .flat()
+}
+
 const gptRstTest = [
   {
     name: 'gpt filter',
     testArr: [
       [gptRst1, 'reduce', 1e6],
-      [gptRst2, 'normal chain', 1e6]
+      [gptRst2, 'normal chain', 1e6],
+      [aiFilterChain, 'ai-filterChain', 1e6]
     ]
   }
 ]

@@ -11,4 +11,7 @@ package-lock.json
 .nyc_output
 .vscode
 .opencode
+.claude
+.codegraph
 mochawesome-report
+graphify-out
