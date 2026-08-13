@@ -266,6 +266,17 @@ describe('AI-补充覆盖-tools', () => {
   })
 
   describe('roulette 补充', () => {
+    it('roulette 第一个权重即命中 - 覆盖1287行 if-true 与1288行语句', () => {
+      const origRandom = Math.random
+      Math.random = () => 0.1
+      try {
+        const r = $.tools.roulette([{ k: 'a', w: 0.5 }, { k: 'b', w: 0.5 }])
+        assertLog(r, 'a')
+      } finally {
+        Math.random = origRandom
+      }
+    })
+
     it('roulette 默认参数返回 undefined', () => {
       const r = $.tools.roulette()
       assertLog(r, undefined)

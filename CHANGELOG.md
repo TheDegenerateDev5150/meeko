@@ -1,3 +1,22 @@
+## [1.8.357](https://github.com/kongnet/meeko/compare/v1.8.356...v1.8.357) (2026-08-13)
+
+
+
+
+## [1.8.356](https://github.com/kongnet/meeko/compare/v1.8.355...v1.8.356) (2026-08-13)
+
+
+
+
+## [1.8.355](https://github.com/kongnet/meeko/compare/v1.8.354...v1.8.355) (2026-08-13)
+
+
+### :white_check_mark:
+
+* 增加测试覆盖 ([bc92418](https://github.com/kongnet/meeko/commit/bc9241877110a13b518fa359e72fab0a92fa665c))
+
+
+
 ## [1.8.354](https://github.com/kongnet/meeko/compare/v1.8.353...v1.8.354) (2026-07-16)
 
 

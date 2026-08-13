@@ -87,6 +87,18 @@ describe('AI覆盖率补充: mathMatrix/mathDistance/mathRand', function () {
       }
     })
 
+    it('gamma c>1 拒绝后继续循环 - 覆盖141行 if-false', function () {
+      const origRandom = Math.random
+      const seq = [0.99, 0.99, 0.5, 0.5]
+      let idx = 0
+      Math.random = () => seq[idx++ % seq.length]
+      try {
+        assertLog($.math.gamma(0, 1, 2), 2)
+      } finally {
+        Math.random = origRandom
+      }
+    })
+
     it('secRand crypto 可用分支 - 覆盖40行 if-true', function () {
       const result = $.math.secRand(0, 10000)
       assertLog(result >= 0 && result <= 10000, true)
